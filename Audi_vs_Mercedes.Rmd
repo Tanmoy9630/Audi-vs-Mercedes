@@ -1,0 +1,364 @@
+---
+title: '**Audi Vs Mercedes**: Analytics Report'
+author: "Name:Tanmoy Paul  Roll No:MDS202246"
+date: "2022-10-22"
+output:
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+## **ABSTRACT**
+
+The main goal of this project is to provide a Visual representation of the performance of Audi and Mercedes used cars.Based on which a buyer can take better decision in choosing the Brand and Model.
+      We will be visualizing various Uni-variate and Multivariate plots to understand the relationship between the variables.Also we will draw some Time series based charts to witnesshow the people's preference for what they want in their cars have changed over time 
+
+## **CONTENTS**
+
+* *Introduction*
+* *About the Data Set*
+* *Working Variables*
+* *The Objective of the Project*
+* *Analysis*
+* *Conclusion*
+
+## **INTRODUCTION**
+ 
+My project comprises three parts. It revolves around providing a comparative study:-
+
+1. Among different models of Audi car in term of price,miles per gallon,Road Tax etc.
+2. Among different models of Mercedes car in term of price,miles per gallon,Road Tax    etc.
+3. Lastly overall comparison between Audi and Mercedes cars in terms of miles per
+   gallon for different price range i.e.which Brand gives better performance in a
+  given price range.
+
+## **ABOUT THE DATA SET**
+
+The two data set I am working on is:-
+
+1. Audi used cars(2002-2020)
+2. Mercedes used cars(1997-2020)
+
+Both the data set contains information on price, transmission, mileage, fuel type, road Tax, miles per gallon(mpg), and engine size corresponding to different used car model.
+
+# **WORKING VARIABLE**
+
+ Variable Name	|     Type	          |     Description
+ -------------  |-------------------- |-------------------
+ model	        |Categorical (Nominal)|Name of the Model
+ year	          |Numeric(Discrete)	  |Year of registration
+ price       	  |Numeric(Continuous)  |Price of the car in Euros
+ transmission 	|Categorical (Nominal)|Type of gear box
+ mileage	      |Numeric(Continuous)  |Distance used
+ fuelType     	|Categorical (Nominal)|Engine fuel
+ tax	          |Numeric(Continuous)	|Road tax
+ mpg	          |Numeric(Continuous)	|Miles per gallon
+ engineSize   	|Numeric(Continuous)	|Size of the engine in liters
+
+## **THE OBJECTIVE OF THE PROJECT**
+
+*   *Audi Cars*
+ 1. which Model of the Audi Brand is popular?
+ 2. Model-wise comparison of price, miles per gallon, engine size 
+ 3. What type of Transmission, Fuel type do people prefers in their Audi cars,
+    Also, how the preference changed over time?
+    
+*   *Mercedes Cars*
+ 1. which Model of the Mercedes Brand is popular?
+ 2. Model-wise comparison of price, miles per gallon, engine size 
+ 3. What type of Transmission, Fuel type do people prefers in their Audi cars,
+    Also how the preference changed over time?
+
+*   *Audi vs Mercedes* 
+ 1. On average, which brand’s car provides better miles per gallon for a given 
+    price range.
+ 
+## **ANALYSIS**
+
+### **AUDI**
+
+Here is the glimpse of my Audi used cars data.
+```{r}
+library(ggplot2)
+library(descriptr)
+library(ggpubr)
+audi=read.csv("audi.csv")
+head(audi)
+
+```
+* **Popularity of the different Model of Audi**
+
+
+```{r}
+model=data.frame(table(audi$model))
+colnames(model)=c("Model","Count")
+ggplot(model,aes(x=Model,y=Count,fill=Model))+geom_bar(stat="identity")+theme(axis.text.x=element_text(angle=90,hjust=1))+labs(title="Models Popularity")
+```
+ 
+ A3 is the most popular Model of Audi Brand. 
+
+* **Model-wise current price comparison**
+
+
+```{r}
+data=subset(audi,year>2019)
+avg_price=aggregate(x=data$price,by=list(data$model),FUN=mean)
+colnames(avg_price)=c("Model","Price")
+ggplot(avg_price,aes(x=Model,y=Price,fill=Model))+geom_bar(stat="identity")+theme(axis.text.x=element_text(angle=90,hjust=1))+labs(title="Model-wise current Price comparison")
+
+```
+Currently Based on the 2020 Data, A1 model have the lowest price and R8 model have the highest price
+
+* **Model-wise Average mpg comparison**
+
+
+```{r}
+avg_mpg=aggregate(x=audi$mpg,by=list(audi$model),FUN=mean)
+colnames(avg_mpg)=c("Model","Avg_MPG")
+ggplot(avg_mpg,aes(x=Model,y=Avg_MPG,fill=Model))+geom_bar(stat="identity")+theme(axis.text.x=element_text(angle=90,hjust=1))+labs(title="Model-wise Average mpg comparision")
+
+```
+
+A1 model has the highest MPG,where R8 Model has the lowest MPG and it is obvious since R8 is a racing car
+
+
+* **Model-wise preference of Fuel Type**
+
+
+```{r}
+ggplot(audi,aes(model,..count..))+
+  geom_bar(aes(fill=fuelType),position = "dodge")+
+  theme(axis.text.x=element_text(angle=90,hjust=1))+
+  labs(title="Model-wise preference of Fuel Type")
+```
+
+* A1 Model with Petrol fuel type is the most preferred one.
+* With Diesel fuel type,A4 Model is more preferable
+* People prefer diesel variant of A6 model much more than it's petrol
+  variant
+* people likes petrol and diesel variant of Q3 Model equally
+
+* **Fuel Type Preference in Audi cars in 2020**
+
+
+```{r}
+data=subset(audi,year>2019)
+fueltype=data.frame(table(data$fuelType))
+colnames(fueltype)=c("Fuel_Type","Count")
+ggplot(fueltype,aes(x=Fuel_Type,y=Count,fill=Fuel_Type))+
+  geom_bar(stat="identity")+labs(title="Fuel Type Preference in 2020")
+
+```
+
+Nowadays, people want Petrol as Fuel Type in their Audi cars more than Diesel,But Hybrid is less preferred
+
+* **How preference have change over time?**
+
+```{r}
+data=subset(audi,fuelType!="Hybrid")
+ggplot(data=data,aes(x=year,fill=fuelType))+geom_bar(position="dodge")+
+  labs(title="Change of Fuel type preference over time")
+```
+
+*Note:*Here,we only consider petrol and diesel fuel type
+
+we see that before 2017,people used to prefer diesel Audi car, But from 2017 onward people started preferring petrol Audi car more than the diesel one
+
+### **MERCEDES:**
+
+Here is the glimpse of my Mercedes used cars data.
+```{r}
+merc=read.csv("merc.csv")
+head(merc)
+```
+* **Popularity of the different Model of Mercedes**
+
+
+```{r}
+model=data.frame(table(merc$model))
+colnames(model)=c("Model","Count")
+ggplot(model,aes(x=Model,y=Count,fill=Model))+geom_bar(stat="identity")+theme(axis.text.x=element_text(angle=90,hjust=1))+labs(title="Models Popularity")
+```
+ 
+ C Class is the most popular Model of Audi Brand. 
+
+* **Model-wise current price comparison**
+
+
+```{r}
+data=subset(merc,year>2019)
+avg_price=aggregate(x=data$price,by=list(data$model),FUN=mean)
+colnames(avg_price)=c("Model","Price")
+ggplot(avg_price,aes(x=Model,y=Price,fill=Model))+geom_bar(stat="identity")+theme(axis.text.x=element_text(angle=90,hjust=1))+labs(title="Model-wise current Price comparison")
+
+```
+Currently Based on the 2020 Data, B Class have the lowest price and G Class have the highest price
+
+* **Model-wise Average mpg comparison**
+
+
+```{r}
+avg_mpg=aggregate(x=merc$mpg,by=list(merc$model),FUN=mean)
+colnames(avg_mpg)=c("Model","Avg_MPG")
+ggplot(avg_mpg,aes(x=Model,y=Avg_MPG,fill=Model))+geom_bar(stat="identity")+theme(axis.text.x=element_text(angle=90,hjust=1))+labs(title="Model-wise Average mpg comparision")
+
+```
+
+E Class has the highest MPG
+
+
+* **Model-wise preference of Fuel Type**
+
+
+```{r}
+ggplot(merc,aes(model,..count..))+
+  geom_bar(aes(fill=fuelType),position = "dodge")+
+  theme(axis.text.x=element_text(angle=90,hjust=1))+
+  labs(title="Model-wise preference of Fuel Type")
+```
+
+* People prefer diesel variant of E Class model much more than it's petrol
+  variant
+* C Class is more preferred,whether it's fuel type is petrol or diesel or Hybrid.
+
+* **Fuel Type Preference in Audi cars in 2020**
+
+
+```{r}
+data=subset(merc,year>2019)
+fueltype=data.frame(table(data$fuelType))
+colnames(fueltype)=c("Fuel_Type","Count")
+ggplot(fueltype,aes(x=Fuel_Type,y=Count,fill=Fuel_Type))+
+  geom_bar(stat="identity")+labs(title="Fuel Type Preference in 2020")
+
+```
+
+Nowadays, people equally prefer petrol and diesel as Fuel Type,But Hybrid is less preferred
+
+* **How preference have change over time?**
+
+```{r}
+data=subset(merc,fuelType!="Other")
+ggplot(data=data,aes(x=year,fill=fuelType))+geom_bar(position="dodge")+
+  labs(title="Change of Fuel type preference over time")
+```
+we see that people prefer diesel Mercedes car from the beginning, But from 2019 people started preferring petrol Mercedes as well
+
+
+
+### **AUDI VS MERCEDES**
+
+*Here is a brief comparison between Audi and Mercedes is given:*
+*For the year 2020,in the Price range 20000-40000 Euros,which Brand provide better Average MPG and also a model wise average mpg comparison for those model which are available in the given price range.*
+
+* **Price Range of 20000-40000 Euros**
+```{r}
+dataa=subset(audi,price>20000 & price<40000 & year>2019)
+datam=subset(merc,price>20000 & price<40000 & year>2019)
+model_mpg_audi=aggregate(x=dataa$mpg,by=list(dataa$model),FUN=mean)
+model_mpg_merc=aggregate(x=datam$mpg,by=list(datam$model),FUN=mean)
+
+model_mpg_audi$Brand=c(rep("Audi"))
+model_mpg_merc$Brand=c(rep("Mercedes"))
+colnames(model_mpg_audi)=c("Model","avg_mpg","Brand")
+colnames(model_mpg_merc)=c("Model","avg_mpg","Brand")
+
+
+a=ggplot(model_mpg_audi,aes(x=Model,y=avg_mpg))+
+  geom_bar(stat="identity",fill="#F8766D")+
+  theme(axis.text.x=element_text(angle=90,hjust=1))+
+  labs(title="Audi")
+
+b=ggplot(model_mpg_merc,aes(x=Model,y=avg_mpg,))+
+  geom_bar(stat="identity",fill="#00BFC4")+
+  theme(axis.text.x=element_text(angle=90,hjust=1))+
+  labs(title="Mercedes")
+
+tab=data.frame(rbind(mean(model_mpg_audi$avg_mpg),mean(model_mpg_merc$avg_mpg)))
+tab=cbind(c("Audi","Merc"),tab)
+colnames(tab)=c("Brand","Avg_MPG")
+c=ggplot(tab,aes(x=Brand,y=Avg_MPG,fill=Brand))+geom_bar(stat="identity")+
+        labs(title="Avgerage MPG in 20k-40k Euros")+
+  theme(text=element_text(size=8))
+
+tab=data.frame(rbind(max(model_mpg_audi$avg_mpg),max(model_mpg_merc$avg_mpg)))
+tab=cbind(c("Audi","Merc"),tab)
+colnames(tab)=c("Brand","Max_MPG")
+d=ggplot(tab,aes(x=Brand,y=Max_MPG,fill=Brand))+geom_bar(stat="identity")+
+  labs(title="Maximum MPG in 20k-40k Euros")+ theme(text=element_text(size=8))
+ggarrange(a,b,c,d,ncol=2,nrow=2)
+```
+we see that in the price range of 20000-40000 Euros, the Mercedes Brand provides better average MPG and maximum MPG than Audi. The C class Model of Mercedes gives the maximum MPG which is above 55 miles per gallon whereas the A3 model of Audi gives only 50 mpg. we also see which Models are available for each Brand in the 20000-40000 Euros price range.
+
+
+* **Price Range of 60000-80000 Euros**
+```{r}
+dataa=subset(audi,price>60000 & price<80000 & year>2019)
+datam=subset(merc,price>60000 & price<80000 & year>2019)
+model_mpg_audi=aggregate(x=dataa$mpg,by=list(dataa$model),FUN=mean)
+model_mpg_merc=aggregate(x=datam$mpg,by=list(datam$model),FUN=mean)
+
+model_mpg_audi$Brand=c(rep("Audi"))
+model_mpg_merc$Brand=c(rep("Mercedes"))
+colnames(model_mpg_audi)=c("Model","avg_mpg","Brand")
+colnames(model_mpg_merc)=c("Model","avg_mpg","Brand")
+
+
+a=ggplot(model_mpg_audi,aes(x=Model,y=avg_mpg))+
+  geom_bar(stat="identity",fill="#F8766D")+
+  theme(axis.text.x=element_text(angle=90,hjust=1))+
+  labs(title="Audi")
+
+b=ggplot(model_mpg_merc,aes(x=Model,y=avg_mpg,))+
+  geom_bar(stat="identity",fill="#00BFC4")+
+  theme(axis.text.x=element_text(angle=90,hjust=1))+
+  labs(title="Mercedes")
+
+tab=data.frame(rbind(mean(model_mpg_audi$avg_mpg),mean(model_mpg_merc$avg_mpg)))
+tab=cbind(c("Audi","Merc"),tab)
+colnames(tab)=c("Brand","Avg_MPG")
+c=ggplot(tab,aes(x=Brand,y=Avg_MPG,fill=Brand))+geom_bar(stat="identity")+
+        labs(title="Avgerage MPG in 60k-80k Euros")+
+  theme(text=element_text(size=8))
+
+tab=data.frame(rbind(max(model_mpg_audi$avg_mpg),max(model_mpg_merc$avg_mpg)))
+tab=cbind(c("Audi","Merc"),tab)
+colnames(tab)=c("Brand","Max_MPG")
+d=ggplot(tab,aes(x=Brand,y=Max_MPG,fill=Brand))+geom_bar(stat="identity")+
+  labs(title="Maximum MPG in 60k-80k Euros")+ theme(text=element_text(size=8))
+ggarrange(a,b,c,d,ncol=2,nrow=2)
+```
+
+We see that in the price range of 60000-80000 Euros, the Audi Brand provides better average MPG but the S Class of Mercedes gives the maximum MPG
+
+
+
+### **CONCLUSION**
+
+From the brief Analysis we can conclude that 
+
+*   *Audi Cars*
+ 1. A3 model is the most popular model of the Audi Brand
+ 2.	currently, the A1 Model comes with the lowest price and gives the best mpg among      all models of Audi.
+ 3.	In 2020, people want Petrol as a Fuel Type in their Audi cars more than Diesel,       But Hybrid is less preferred. 
+                we also see that before 2017, people used to prefer diesel Audi cars,
+    But from 2017 onward people started preferring petrol Audi cars more than the
+    diesel one
+    
+*   *Mercedes Cars*
+ 1. C Class is the most popular model of Mercedes Brand
+ 2. currently,B Class comes with the lowest Price but E Class gives the best mpg 
+    among all models of Mercedes.
+ 3. In 2020, people equally prefer petrol and diesel as Fuel Types in their Mercedes      cars,But Hybrid is less preferred. 
+                 We also see that people prefer diesel Mercedes cars from the
+    beginning, But from 2019 people started preferring petrol Mercedes as well
+
+          
+*   *Audi vs Mercedes* 
+ 1. In the price range of 20000-40000 Euros, Mercedes Brand provides better average       MPG and maximum MPG than Audi. The C class Model of Mercedes gives the maximum MPG     which is above      55 miles per gallon whereas the A3 model of Audi gives only 50     mpg.
+    
+    We see that in the price range of 60000-80000 Euros, the Audi Brand provides
+    better average     MPG but the S Class of Mercedes gives the maximum MPG
+    
+*As we proceed in this project, we will see more such Audi vs Mercedes comparisons for different price ranges like 40k-60k,60k-80k,80k-100k Euros, and also some more comparisons among various models to help the buyer in making a better decision in choosing a good model based on their budget.*
