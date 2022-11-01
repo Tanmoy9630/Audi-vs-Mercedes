@@ -28,10 +28,10 @@ The main goal of this project is to provide a Visual representation of the perfo
 My project comprises three parts. It revolves around providing a comparative study:-
 
 1. Among different models of Audi car in term of price,miles per gallon,Road Tax etc.
-2. Among different models of Mercedes car in term of price,miles per gallon,Road Tax    etc.
+2. Among different models of Mercedes car in term of price,miles per gallon,Road Tax etc.
 3. Lastly overall comparison between Audi and Mercedes cars in terms of miles per
    gallon for different price range i.e.which Brand gives better performance in a
-  given price range.
+   given price range.
 
 ## **ABOUT THE DATA SET**
 
@@ -340,8 +340,8 @@ From the brief Analysis we can conclude that
 
 *   *Audi Cars*
  1. A3 model is the most popular model of the Audi Brand
- 2.	currently, the A1 Model comes with the lowest price and gives the best mpg among      all models of Audi.
- 3.	In 2020, people want Petrol as a Fuel Type in their Audi cars more than Diesel,       But Hybrid is less preferred. 
+ 2.	currently, the A1 Model comes with the lowest price and gives the best mpg among all models of Audi.
+ 3.	In 2020, people want Petrol as a Fuel Type in their Audi cars more than Diesel, But Hybrid is less preferred. 
                 we also see that before 2017, people used to prefer diesel Audi cars,
     But from 2017 onward people started preferring petrol Audi cars more than the
     diesel one
@@ -350,15 +350,15 @@ From the brief Analysis we can conclude that
  1. C Class is the most popular model of Mercedes Brand
  2. currently,B Class comes with the lowest Price but E Class gives the best mpg 
     among all models of Mercedes.
- 3. In 2020, people equally prefer petrol and diesel as Fuel Types in their Mercedes      cars,But Hybrid is less preferred. 
+ 3. In 2020, people equally prefer petrol and diesel as Fuel Types in their Mercedes cars,But Hybrid is less preferred. 
                  We also see that people prefer diesel Mercedes cars from the
     beginning, But from 2019 people started preferring petrol Mercedes as well
 
           
 *   *Audi vs Mercedes* 
- 1. In the price range of 20000-40000 Euros, Mercedes Brand provides better average       MPG and maximum MPG than Audi. The C class Model of Mercedes gives the maximum MPG     which is above      55 miles per gallon whereas the A3 model of Audi gives only 50     mpg.
+ 1. In the price range of 20000-40000 Euros, Mercedes Brand provides better average MPG and maximum MPG than Audi. The C class Model of Mercedes gives the maximum MPG     which is above 55 miles per gallon whereas the A3 model of Audi gives only 50 mpg.
     
     We see that in the price range of 60000-80000 Euros, the Audi Brand provides
-    better average     MPG but the S Class of Mercedes gives the maximum MPG
+    better average  MPG but the S Class of Mercedes gives the maximum MPG
     
 *As we proceed in this project, we will see more such Audi vs Mercedes comparisons for different price ranges like 40k-60k,60k-80k,80k-100k Euros, and also some more comparisons among various models to help the buyer in making a better decision in choosing a good model based on their budget.*
